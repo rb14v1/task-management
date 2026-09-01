@@ -1,0 +1,56 @@
+{
+  "submissionId": "cmtintfko000ruwngdvttxah7",
+  "appName": "taks management",
+  "createdAt": "2026-09-01T12:44:57.868Z",
+  "updatedAt": "2026-09-01T12:52:48.239Z",
+  "stages": {
+    "scaffold": {
+      "status": "DONE",
+      "startedAt": "2026-09-01T12:44:57.868Z",
+      "completedAt": "2026-09-01T12:44:58.083Z"
+    },
+    "spec": {
+      "status": "DONE",
+      "startedAt": "2026-09-01T12:45:13.747Z",
+      "completedAt": "2026-09-01T12:45:14.578Z",
+      "metadata": {
+        "pages": 3,
+        "apis": 5,
+        "models": 1
+      }
+    },
+    "codegen": {
+      "status": "DONE",
+      "startedAt": "2026-09-01T12:47:13.828Z",
+      "completedAt": "2026-09-01T12:47:41.579Z",
+      "metadata": {
+        "filesCreated": 28,
+        "totalLines": 1247
+      }
+    },
+    "errorFix": {
+      "status": "DONE",
+      "startedAt": "2026-09-01T12:52:18.091Z",
+      "completedAt": "2026-09-01T12:52:48.227Z",
+      "metadata": {
+        "iterations": 11
+      }
+    },
+    "branding": {
+      "status": "DONE",
+      "startedAt": "2026-09-01T12:52:18.096Z",
+      "completedAt": "2026-09-01T12:52:48.239Z",
+      "metadata": {
+        "filesModified": 0
+      }
+    },
+    "setup": {
+      "status": "DONE",
+      "startedAt": "2026-09-01T12:52:38.196Z",
+      "completedAt": "2026-09-01T12:52:38.196Z",
+      "metadata": {
+        "status": "FAILED"
+      }
+    }
+  }
+}

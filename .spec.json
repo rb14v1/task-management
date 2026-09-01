@@ -1,0 +1,212 @@
+{
+  "appName": "taks management",
+  "domainModel": {
+    "entities": [
+      {
+        "name": "Todo",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "completed",
+            "type": "boolean",
+            "required": true
+          },
+          {
+            "name": "createdAt",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "completedAt",
+            "type": "date",
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "name": "Dashboard",
+      "route": "/",
+      "purpose": "Main view showing task list, quick-add form, filters, and counts",
+      "components": [
+        "QuickAddForm",
+        "TodoList",
+        "TodoItem",
+        "FilterTabs",
+        "StatsBar"
+      ],
+      "requiresAuth": false
+    },
+    {
+      "name": "TodoDetail",
+      "route": "/todos/:id",
+      "purpose": "View and edit details of a single todo item",
+      "components": [
+        "TodoEditForm",
+        "BackButton"
+      ],
+      "requiresAuth": false
+    },
+    {
+      "name": "About",
+      "route": "/about",
+      "purpose": "Brief info about the app and usage tips",
+      "components": [
+        "InfoCard"
+      ],
+      "requiresAuth": false
+    }
+  ],
+  "apis": [
+    {
+      "method": "GET",
+      "path": "todos",
+      "purpose": "Fetch all todos from localStorage",
+      "requiresAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "todos",
+      "purpose": "Add a new todo to localStorage",
+      "requiresAuth": false
+    },
+    {
+      "method": "PUT",
+      "path": "todos/:id",
+      "purpose": "Update a todo (title, description, or completed status)",
+      "requiresAuth": false
+    },
+    {
+      "method": "DELETE",
+      "path": "todos/:id",
+      "purpose": "Remove a todo from localStorage",
+      "requiresAuth": false
+    },
+    {
+      "method": "DELETE",
+      "path": "todos/completed",
+      "purpose": "Clear all completed todos at once",
+      "requiresAuth": false
+    }
+  ],
+  "workflows": [
+    {
+      "name": "Create Todo",
+      "steps": [
+        {
+          "step": 1,
+          "actor": "User",
+          "action": "Enter title and optional description in quick-add form",
+          "nextStatus": "draft"
+        },
+        {
+          "step": 2,
+          "actor": "User",
+          "action": "Submit form to add todo",
+          "nextStatus": "pending"
+        },
+        {
+          "step": 3,
+          "actor": "System",
+          "action": "Save todo to localStorage and refresh list",
+          "nextStatus": "pending"
+        }
+      ]
+    },
+    {
+      "name": "Complete Todo",
+      "steps": [
+        {
+          "step": 1,
+          "actor": "User",
+          "action": "Check the checkbox on a pending todo",
+          "nextStatus": "completed"
+        },
+        {
+          "step": 2,
+          "actor": "System",
+          "action": "Update completed flag and completedAt in localStorage",
+          "nextStatus": "completed"
+        },
+        {
+          "step": 3,
+          "actor": "System",
+          "action": "Recalculate pending vs completed counts",
+          "nextStatus": "completed"
+        }
+      ]
+    },
+    {
+      "name": "Filter Todos",
+      "steps": [
+        {
+          "step": 1,
+          "actor": "User",
+          "action": "Click filter tab (All, Pending, Completed)",
+          "nextStatus": "filtered"
+        },
+        {
+          "step": 2,
+          "actor": "System",
+          "action": "Filter todos in memory and re-render list",
+          "nextStatus": "filtered"
+        }
+      ]
+    },
+    {
+      "name": "Delete Todo",
+      "steps": [
+        {
+          "step": 1,
+          "actor": "User",
+          "action": "Click delete icon on a todo item",
+          "nextStatus": "removed"
+        },
+        {
+          "step": 2,
+          "actor": "System",
+          "action": "Remove todo from localStorage and update UI",
+          "nextStatus": "removed"
+        }
+      ]
+    }
+  ],
+  "styling": {
+    "framework": "Tailwind",
+    "components": "React",
+    "theme": "Version1",
+    "colors": {
+      "primary": "#00c6c2",
+      "dark": "#052831",
+      "cream": "#fdf7ea"
+    }
+  },
+  "dependencies": [
+    "react",
+    "react-router-dom",
+    "tailwindcss",
+    "lucide-react"
+  ],
+  "riskFactors": [
+    "localStorage has ~5MB limit; large todo lists may hit quota",
+    "Data is per-browser and not synced across devices",
+    "Clearing browser storage will erase all todos",
+    "No auth means anyone with browser access can view/edit todos"
+  ]
+}
