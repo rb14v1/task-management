@@ -9,7 +9,7 @@ RUN npm run build || pnpm build || yarn build || true
 
 FROM node:20-alpine
 
-RUN addgroup --gid 1000 nodeuser && adduser --uid 1000 --gid 1000 --home /app --disabled-password nodeuser
+RUN addgroup --gid 1001 nodeuser && adduser --uid 1001 --gid 1001 --home /app --disabled-password nodeuser
 COPY --from=builder /app /app
 
 USER nodeuser
