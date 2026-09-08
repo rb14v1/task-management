@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import './config' // validates required env vars at startup — throws if any are missing
 import TaskDetail from './pages/TaskDetail'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
