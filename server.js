@@ -1,8 +1,20 @@
 // Production server: serves static Vite build output and exposes /healthz
+import 'dotenv/config';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+// Validate required environment variables on startup
+const REQUIRED_ENV_VARS = ['NODE_ENV', 'SESSION_SECRET', 'OIDC_CLIENT_SECRET'];
+const missingVars = REQUIRED_ENV_VARS.filter((v) => !process.env[v]);
+if (missingVars.length > 0) {
+  console.error(
+    `[startup] Missing required environment variables: ${missingVars.join(', ')}.\n` +
+    'Copy .env.example to .env and fill in all values before starting the server.'
+  );
+  process.exit(1);
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
