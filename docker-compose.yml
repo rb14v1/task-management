@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: taskmanagement
       POSTGRES_USER: taskmanagement
-      POSTGRES_PASSWORD: taskmanagement
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -25,8 +25,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgres://taskmanagement:taskmanagement@db:5432/taskmanagement
-      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: production
       PORT: 3000
 
@@ -44,7 +44,7 @@ services:
       POSTGRES_HOST: db
       POSTGRES_DB: taskmanagement
       POSTGRES_USER: taskmanagement
-      POSTGRES_PASSWORD: taskmanagement
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       SCHEDULE: "@daily"
       BACKUP_KEEP_DAYS: 30
       BACKUP_KEEP_WEEKS: 4
