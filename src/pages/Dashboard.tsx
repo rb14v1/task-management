@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTodos } from '../hooks/useTodos';
+import { useAuth } from '../context/AuthContext';
 import TodoForm from '../components/TodoForm';
-import { Todo, FormState, TodoStatus, FilterType } from '../types';
+import { FormState, TodoStatus, FilterType } from '../types';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const { todos, addTodo, updateTodo, deleteTodo, isLoaded } = useTodos();
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState<FilterType>('all');
@@ -70,12 +72,20 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-gray-900">Task Management</h1>
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              {showForm ? 'Cancel' : 'Add Task'}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                {showForm ? 'Cancel' : 'Add Task'}
+              </button>
+              <button
+                onClick={() => logout()}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+              >
+                Log out
+              </button>
+            </div>
           </div>
         </div>
       </div>

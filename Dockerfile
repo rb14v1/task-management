@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
 RUN npm ci || pnpm install || yarn install
 COPY . .
-RUN npm run build || pnpm build || yarn build || true
+RUN npm run build
 
 FROM node:20-alpine
 
