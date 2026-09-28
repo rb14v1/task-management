@@ -6,8 +6,12 @@ import { Todo } from '../types';
 export default function TaskDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { getTodo, updateTodo, deleteTodo } = useTodos();
+  const { getTodo, updateTodo, deleteTodo, isLoaded } = useTodos();
   const todo = id ? getTodo(id) : null;
+
+  if (!isLoaded) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   if (!todo) {
     return (
