@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: taskmanagement
       POSTGRES_USER: taskmanagement
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: taskmanagement
     ports:
       - "5432:5432"
     volumes:
@@ -25,10 +25,35 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: postgres://taskmanagement:taskmanagement@db:5432/taskmanagement
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
       NODE_ENV: production
       PORT: 3000
 
+  # Scheduled PostgreSQL backup service.
+  # Creates daily compressed dumps retained for 30 days (+ 4 weekly, 1 monthly).
+  # Dumps are written to the db-backups volume, which is kept separate from
+  # the primary db-data volume to satisfy the cross-storage requirement.
+  db-backup:
+    image: prodrigestivill/postgres-backup-local:16-alpine
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: taskmanagement
+      POSTGRES_USER: taskmanagement
+      POSTGRES_PASSWORD: taskmanagement
+      SCHEDULE: "@daily"
+      BACKUP_KEEP_DAYS: 30
+      BACKUP_KEEP_WEEKS: 4
+      BACKUP_KEEP_MONTHS: 1
+      HEALTHCHECK_PORT: 8080
+    volumes:
+      - db-backups:/backups
+
 volumes:
   db-data:
+  # Backup dumps are stored in a dedicated volume, isolated from primary data.
+  db-backups:
