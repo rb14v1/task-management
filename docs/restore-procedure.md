@@ -111,4 +111,4 @@ docker exec -i $(docker compose ps -q db) \
 
 | Date | Tester | Restore type | Target timestamp | Outcome | Notes |
 |------|--------|-------------|-----------------|---------|-------|
-| — | — | — | — | Pending | Must complete before go-live |
+| 2026-10-09 | Samarth Sindhya | AWS RDS PITR (console) | 2026-10-08T03:00:00Z | ✅ Pass | Restored to `task-test-1-restored-20261009`; application connected successfully; post-restore checklist completed; instance decommissioned after verification. |
